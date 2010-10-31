@@ -48,7 +48,7 @@ class Product(models.Model):
 
     product_type = models.ForeignKey(ProductType)
 
-    daylife_source = models.CharField(max_length=16)
+    daylife_source = models.CharField(max_length=16, blank=True)
 
     def __unicode__(self):
         return self.name
