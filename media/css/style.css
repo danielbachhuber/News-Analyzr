@@ -60,13 +60,24 @@ a {
     color: #FFFFFF;
 }
 
+
+/**
+ * Main
+ */
+ 
+.main {
+    min-height: 400px;
+}
+
 /**
  * Footer
  */
 
 .footer {
+    border-top: 2px solid #008FB8;
     text-align: center;
-    margin-top:100px;
+    margin-top: 50px;
+    padding-top: 20px;
     color: #99999;
 }
 
