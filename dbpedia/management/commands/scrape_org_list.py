@@ -18,7 +18,7 @@ class Command(BaseCommand):
         count = 0
 
         news_org_type, created = OrganizationType.objects.get_or_create(name='News')
-        web_product_type, created = ProductType.objects.get_or_create(name='website')
+        web_product_type, created = ProductType.objects.get_or_create(name='Website')
 
         for trip in g.triples((None, None, URIRef('http://dbpedia.org/ontology/Newspaper'))):
             url = str(trip[0])
