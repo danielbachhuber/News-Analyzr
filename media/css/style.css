@@ -36,9 +36,11 @@ a {
  */
 
 .header {
-    background-color: #008FB8;
-    padding-top: 20px;
-    padding-bottom: 20px;    
+    background-color: #008FB8;   
+}
+
+.header a {
+    border: none;
 }
 
 .header h1 {
@@ -46,6 +48,12 @@ a {
     margin-bottom: 0;
     color: #f5EEDF;
     text-transform: lowercase;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.header h1 a {
+    color: #f5EEDF;
 }
 
 .header h1 span {

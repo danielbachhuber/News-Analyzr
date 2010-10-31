@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="main" id="homepage">
 
 <h3>Recently Updated Organizations</h3>
 {% if recently_updated_orgs %}
@@ -13,4 +14,5 @@
 <div class="message alert">No organizations have updated recently</div>
 {% endif %}
 
+</div>
 {% endblock %}

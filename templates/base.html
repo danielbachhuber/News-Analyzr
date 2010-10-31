@@ -15,24 +15,14 @@
 		
 		<div class="wrap">
 			
-			<h1>News<span>Analyzr</span></h1>
+			<h1><a href="/">News<span>Analyzr</span></a></h1>
 			
 		</div>
 		
 	</div>
 	
 	<div class="wrap">
-		<div class="main">
-		{% if messages %}
-			{% for message in messages %}
-			<div class="message {{ message.type }}">
-				{{ message.text }}
-			</div>	
-			{% endfor %}
-			
-		{% endif %}
 		{% block content %}{% endblock %}
-		</div>
 	</div>
 	
 	<div class="wrap">
