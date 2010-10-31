@@ -20,9 +20,9 @@ class Organization(models.Model):
 
     organization_type = models.ForeignKey(OrganizationType)
 
-    parents = models.ManyToManyField('self')
+    parents = models.ManyToManyField('self', blank=True)
 
-    dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True)
+    dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
