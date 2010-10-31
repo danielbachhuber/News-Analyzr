@@ -87,6 +87,19 @@ a {
     color: #FFFFFF;
 }
 
+.main h2 {
+    font-weight: normal;
+}
+
+.main h2 a.edit {
+    float: right;
+    font-size: 14px;
+}
+
+.main .page {
+    width: 600px;
+}
+
 .main .meta {
     color: #999999;
 }
