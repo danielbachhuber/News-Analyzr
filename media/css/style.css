@@ -101,6 +101,9 @@ a {
 }
 
 .main .meta {
+}
+
+.main .meta label {
     color: #999999;
 }
 
