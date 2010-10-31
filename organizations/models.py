@@ -1,11 +1,11 @@
 from django.db import models
 from dbpedia import models as dbpedia_models
-from django_extensions.db.fields import UUIDField
+from django_extensions.db.fields import UUIDField, AutoSlugField
 
 class OrganizationType(models.Model):
     uuid = UUIDField(version=4, primary_key=True)
     name = models.CharField(max_length=100)
-    slug = models.SlugField()
+    slug = AutoSlugField(populate_from='name')
     description = models.TextField()
 
     def __unicode__(self):
@@ -14,7 +14,7 @@ class OrganizationType(models.Model):
 class Organization(models.Model):
     uuid = UUIDField(version=4, primary_key=True)
     name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = AutoSlugField(populate_from='name')
     homepage = models.URLField(blank=True)
     address = models.TextField(blank=True)
 
@@ -33,7 +33,7 @@ class Organization(models.Model):
 class ProductType(models.Model):
     uuid = UUIDField(version=4, primary_key=True)
     name = models.CharField(max_length=100)
-    slug = models.SlugField()
+    slug = AutoSlugField(populate_from='name')
     description = models.TextField()
 
     def __unicode__(self):
@@ -43,7 +43,7 @@ class Product(models.Model):
     uuid = UUIDField(version=4, primary_key=True)
     organization = models.ForeignKey(Organization)
     name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = AutoSlugField(populate_from='name')
     homepage = models.URLField(blank=True)
 
     product_type = models.ForeignKey(ProductType)
