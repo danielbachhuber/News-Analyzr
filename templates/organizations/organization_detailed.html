@@ -8,7 +8,11 @@
 	
 	<h2>{{ organization.name }}</h2>
 	
-	<p class="description">{{ organization.description }}</p>
+	<div class="meta">
+		<p class="homepage"><label>Homepage:</label> <a href="{{ organization.homepage }}">{{ organization.homepage }}</a></p>
+		{% if organization %}
+		{% endif %}
+	</div>
 
 </div>
 {% else %}

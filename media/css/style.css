@@ -20,11 +20,15 @@ h1 {
 	font-size: 36px;
 }
 
-a {
-	color: #0066CC;
-	text-decoration: none;
-	border-bottom: 1px solid #0066CC;
+h2 {
+    font-size: 24px;
 }
+
+a {
+	color: #008FB8;
+	text-decoration: none;
+}
+
 
 .message {
     padding: 5px;
@@ -67,6 +71,24 @@ a {
  
 .main {
     min-height: 400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.main a {
+	color: #008FB8;
+	text-decoration: none;
+	border-bottom: 1px solid #008FB8;
+}
+
+.main a:hover {
+    background-color: #008FB8;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+
+.main .meta {
+    color: #999999;
 }
 
 /**
