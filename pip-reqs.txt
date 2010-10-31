@@ -2,3 +2,4 @@ Django
 Werkzeug
 django-extensions
 rdflib
+xlrd
