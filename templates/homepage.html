@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="main" id="homepage">
 
 <h3>Recently Updated Organizations</h3>
 {% if recently_updated_orgs %}
 <ul>
 	{% for recently_updated_org in recently_updated_orgs %}
-	<li>{{ recently_updated_org.name }}</li>
+	<li><a href="{{ recently_updated_org.get_absolute_url }}">{{ recently_updated_org.name }}</a></li>
 	{% endfor %}
 </ul>
 {% else %}
 <div class="message alert">No organizations have updated recently</div>
 {% endif %}
 
+</div>
 {% endblock %}

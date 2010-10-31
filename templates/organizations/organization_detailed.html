@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main" id="organization_detailed">
+
+<div class="page">
+{% if organization %}
+<div class="entry">
+	
+	<h2><a class="edit" href="{{ organization.get_edit_url }}">Edit</a>{{ organization.name }}</h2>
+	
+	<div class="meta">
+		<p class="homepage"><label>Homepage:</label> <a href="{{ organization.homepage }}">{{ organization.homepage }}</a></p>
+		{% if organization %}
+		{% endif %}
+	</div>
+
+</div>
+{% else %}
+<div class="message error">There's no organization at this address</div>
+{% endif %}
+</div>
+
+</div>
+{% endblock %}

@@ -11,37 +11,25 @@
 </head>
 <body>
 
-	<div class="wrap">
+	<div class="header">
 		
-		<div class="header">
+		<div class="wrap">
 			
-			<h1>News Analyzr</h1>
-			<div class="description">Analyzing the news and those who make it</div>
-			<p class="contact">Say <a href="mailto:hello@newsanalyzr.com">hello@newsanalyzr.com</a></p>
+			<h1><a href="/">News<span>Analyzr</span></a></h1>
 			
 		</div>
 		
 	</div>
 	
 	<div class="wrap">
-		<div class="main">
-		{% if messages %}
-			{% for message in messages %}
-			<div class="message {{ message.type }}">
-				{{ message.text }}
-			</div>	
-			{% endfor %}
-			
-		{% endif %}
 		{% block content %}{% endblock %}
-		</div>
 	</div>
 	
-	<div class="wrap">
+	<div class="footer">
 		
-		<div class="footer">
+		<div class="wrap">
 			
-			
+			<p>A project by <a href="http://maxcutler.com/">Max</a>, <a href="http://danielbachhuber.com/">Daniel</a>, <a href="http://marc.lavalee.name">Marc</a>, <a href="http://laurenrabaino.com">Lauren</a>, and <a href="http://greglinch.com/">Greg</a>.</p>
 			
 		</div>
 		

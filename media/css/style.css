@@ -17,17 +17,106 @@ body {
 }
 
 h1 {
-	font-weight: normal;
-	font-size: 24px;
+	font-size: 36px;
+}
+
+h2 {
+    font-size: 24px;
 }
 
 a {
-	color: #0066CC;
+	color: #008FB8;
 	text-decoration: none;
-	border-bottom: 1px solid #0066CC;
 }
+
 
 .message {
     padding: 5px;
     border: 2px solid #666666;
+}
+
+/**
+ * Header
+ */
+
+.header {
+    background-color: #008FB8;   
+}
+
+.header a {
+    border: none;
+}
+
+.header h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #f5EEDF;
+    text-transform: lowercase;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.header h1 a {
+    color: #f5EEDF;
+}
+
+.header h1 span {
+    color: #FFFFFF;
+}
+
+
+/**
+ * Main
+ */
+ 
+.main {
+    min-height: 400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.main a {
+	color: #008FB8;
+	text-decoration: none;
+	border-bottom: 1px solid #008FB8;
+}
+
+.main a:hover {
+    background-color: #008FB8;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+
+.main h2 {
+    font-weight: normal;
+}
+
+.main h2 a.edit {
+    float: right;
+    font-size: 14px;
+}
+
+.main .page {
+    width: 600px;
+}
+
+.main .meta {
+    color: #999999;
+}
+
+/**
+ * Footer
+ */
+
+.footer {
+    border-top: 2px solid #008FB8;
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    color: #99999;
+}
+
+.footer a {
+    color: #999999;
+    border-color: #999999;
 }
