@@ -160,3 +160,23 @@ class PrintFormat(DbpediaBase):
             'type': 'lang'
         },
     }
+
+class Owner(DbpediaBase):
+    name = models.CharField(max_length=500, blank=True)
+    label = models.CharField(max_length=500, blank=True)
+    homepage = models.URLField(blank=True)
+
+    dbpedia_fields = {
+        'http://xmlns.com/foaf/0.1/name': {
+            'field': 'name',
+            'type': 'lang'
+        },
+        'http://www.w3.org/2000/01/rdf-schema#label': {
+            'field': 'label',
+            'type': 'lang'
+        },
+        'http://xmlns.com/foaf/0.1/homepage': {
+            'field': 'homepage',
+            'type': 'value'
+        },
+    }
