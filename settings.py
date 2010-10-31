@@ -96,3 +96,8 @@ INSTALLED_APPS = (
 
     'dbpedia',
 )
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
