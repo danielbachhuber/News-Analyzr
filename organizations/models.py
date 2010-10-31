@@ -24,6 +24,9 @@ class Organization(models.Model):
 
     dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True)
 
+	created = models.DateTime(auto_now_add=True)
+	modified = models.DateTime(auto_now=True)
+
     def __unicode__(self):
         return self.name
 
