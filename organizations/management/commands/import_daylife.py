@@ -1,15 +1,15 @@
 # stdlib
-from urlparse import urlparse
+from urlparse import urlsplit
 
 # 3rd party
 from xlrd import open_workbook
 from django.core.management.base import BaseCommand
 
 # app
-from organizations.models import Organization, Product
+from organizations.models import Organization, Product, OrganizationType, ProductType
 
 def normalize_org_name(name):
-    name = name.lowercase()
+    name = name.lower()
     # TODO: strip stop words: The, etc.
     return name
 
@@ -23,7 +23,7 @@ class DaylifeSourceImporter(object):
             row = sheet.row(linenum)
             line = {}
             for colnum in range(0, len(header)):
-                line[header[colnum].value] = row[colnum].value
+                line[header[colnum].value] = row[colnum].value.strip()
             lines.append(line)
         return lines
             
@@ -34,22 +34,30 @@ class DaylifeSourceImporter(object):
 
         # Try to find the Product or Organization, and create records as
         # necessary
-        p = self.find_product(row)
-        if not p:
+        #import pdb;pdb.set_trace()
+        product = self.find_product(row)
+        if not product:
             org = self.find_organization(row)
             if not org:
                 org = self.create_organization(row)
-            p = self.create_product(row, org)
+            product = self.create_product(row, org)
+        self.add_daylife_data(row, product)
 
 
     def find_product(self, row):
         # see if there's a product with the normalized name
         ps = Product.objects.filter(name__iexact=normalize_org_name(row.get('Source Name')))
         if not ps.count():
+            #import pdb;pdb.set_trace()
             # see if there's a product with the URL
-            netloc = urlparse.urlsplit(row.get('URL')).netloc
+            urlparts = urlsplit(row.get('Home Page URL', ''))
+            if urlparts:
+                netloc = urlparts.netloc
+            else:
+                return
+
             # XXX: this might match the wrong thing if the original URL contains a slash
-            ps = Product.objects.filter(url__icontains=netloc)
+            ps = Product.objects.filter(homepage__icontains=netloc)
 
         if ps.count():
             return ps[0]
@@ -60,18 +68,25 @@ class DaylifeSourceImporter(object):
         org = Organization.objects.filter(name__iexact=normalize_org_name(row.get('Source Name')))
         if not org.count():
             # see if there's a product with the URL
-            netloc = urlparse.urlsplit(row.get('URL')).netloc
+            urlparts = urlsplit(row.get('Home Page URL', ''))
+            if urlparts:
+                netloc = urlparts.netloc
+                top_domain = netloc.split('.')[-2:]
+            else:
+                return
+
             # XXX: this might match the wrong thing if the original URL contains a slash
-            org = Organization.objects.filter(url__icontains=netloc)
+            org = Organization.objects.filter(homepage__icontains=top_domain)
 
         if org.count():
             return org[0]
 
 
     def create_organization(self, row):
+        #import pdb;pdb.set_trace()
         org = Organization(
                 name=row.get('Source Name'),
-                homepage=row.get('URL'),
+                homepage=row.get('Home Page URL'),
                 # XXX: ew
                 organization_type=OrganizationType.objects.get(name='News'),
         )
@@ -87,13 +102,18 @@ class DaylifeSourceImporter(object):
 
         p = Product(
                 name=row.get('Source Name'),
-                homepage=row.get('URL'),
-                daylife_source=row.get('Source ID'),
+                homepage=row.get('Home Page URL'),
                 # XXX: ew
                 product_type=ptype,
+                organization=org,
         )
         p.save()
         return p
+
+
+    def add_daylife_data(self, row, product):
+        product.daylife_source = row.get('Source ID')
+        product.save()
 
 
 class Command(BaseCommand):
@@ -109,5 +129,7 @@ class Command(BaseCommand):
 
         dsi = DaylifeSourceImporter()
         parsed = dsi.parse(filename)
-        for row in parsed:
+        for i, row in enumerate(parsed):
             dsi.import_row(row)
+            if i % 100 == 0:
+                print '. ' + str(i)
