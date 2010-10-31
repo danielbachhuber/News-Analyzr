@@ -13,11 +13,35 @@
 
 	<div class="wrap">
 		
-		<div class="main" id="home-splash">
+		<div class="header">
 			
 			<h1>News Analyzr</h1>
-			<p class="description">Analyzing the news and those who make it</p>
+			<div class="description">Analyzing the news and those who make it</div>
 			<p class="contact">Say <a href="mailto:hello@newsanalyzr.com">hello@newsanalyzr.com</a></p>
+			
+		</div>
+		
+	</div>
+	
+	<div class="wrap">
+		<div class="main">
+		{% if messages %}
+			{% for message in messages %}
+			<div class="message {{ message.type }}">
+				{{ message.text }}
+			</div>	
+			{% endfor %}
+			
+		{% endif %}
+		{% block content %}{% endblock %}
+		</div>
+	</div>
+	
+	<div class="wrap">
+		
+		<div class="footer">
+			
+			
 			
 		</div>
 		
