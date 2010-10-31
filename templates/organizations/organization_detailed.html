@@ -10,7 +10,7 @@
 	<h2><a class="edit" href="{{ organization.get_edit_url }}">Edit</a>{{ organization.name }}</h2>
 	
 	<div class="meta">
-		<p class="homepage"><label>Homepage:</label> <a href="{{ organization.homepage }}">{{ organization.homepage }}</a></p>
+		<p class="homepage"><label>Homepage:</label> {% if organization.homepage %}<a href="{{ organization.homepage }}">{{ organization.homepage }}</a>{% else %}(None listed){% endif %}</p>
 		{% for parent in organization.parents.all %}
 		{% if forloop.first %}<p class="parents"><label>Parents:</label> {% endif %}<a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
 		{% endfor %}
