@@ -35,6 +35,12 @@ class Organization(models.Model):
         return ('organization_detailed', (), {
             'slug': self.slug,
         })
+        
+    @models.permalink
+    def get_edit_url(self):
+        return ('organization_edit', (), {
+            'slug': self.slug,
+        })    
 
 class ProductType(models.Model):
     uuid = UUIDField(version=4, primary_key=True)
