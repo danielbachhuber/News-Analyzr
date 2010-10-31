@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import *
 from views import homepage
 
+import settings
+
 from django.contrib import admin
 admin.autodiscover()
 
@@ -10,6 +12,10 @@ urlpatterns = patterns('',
     
     # Organization directory and singular organiation URLs
     (r'^organizations/', include('organizations.urls')),
+
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': settings.MEDIA_ROOT}),
+
 
     # Homepage
     url(r'^$', homepage, name='homepage' ),
