@@ -20,7 +20,7 @@ class Organization(models.Model):
 
     organization_type = models.ForeignKey(OrganizationType)
 
-    parents = models.ManyToManyField('self')
+    parents = models.ManyToManyField('self', blank=True)
 
     dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True, blank=True)
 
