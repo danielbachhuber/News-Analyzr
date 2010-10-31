@@ -1,2 +1,3 @@
 *.pyc
 *.sqlite
+local_settings.py
