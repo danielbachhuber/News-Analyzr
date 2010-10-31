@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul>
+	{% for recently_updated_org in recently_updated_orgs %}
+	<li>{{ recently_updated_org.name }}</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
