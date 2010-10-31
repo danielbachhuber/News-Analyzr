@@ -4,6 +4,7 @@ from urlparse import urlsplit
 # 3rd party
 from xlrd import open_workbook
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 
 # app
 from organizations.models import Organization, Product, OrganizationType, ProductType
@@ -69,14 +70,15 @@ class DaylifeSourceImporter(object):
         if not org.count():
             # see if there's a product with the URL
             urlparts = urlsplit(row.get('Home Page URL', ''))
+            #import pdb;pdb.set_trace()
             if urlparts:
                 netloc = urlparts.netloc
-                top_domain = netloc.split('.')[-2:]
+                top_domain = '.'.join(netloc.split('.')[-2:])
             else:
                 return
 
             # XXX: this might match the wrong thing if the original URL contains a slash
-            org = Organization.objects.filter(homepage__icontains=top_domain)
+            org = Organization.objects.filter( Q( homepage__icontains='/' + top_domain ) | Q( homepage__icontains='.' + top_domain ) )
 
         if org.count():
             return org[0]
