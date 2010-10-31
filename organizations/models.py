@@ -22,7 +22,7 @@ class Organization(models.Model):
 
     parents = models.ManyToManyField('self')
 
-    dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True)
+    dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
