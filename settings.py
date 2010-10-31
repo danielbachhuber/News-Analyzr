@@ -99,6 +99,7 @@ INSTALLED_APPS = (
 
     'dbpedia',
     'organizations',
+    'activities',
 )
 
 try:
