@@ -1,0 +1,28 @@
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	line-height: 18px;
+	color: #222222;
+}
+
+.wrap {
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h1 {
+	font-weight: normal;
+	font-size: 24px;
+}
+
+a {
+	color: #0066CC;
+	text-decoration: none;
+	border-bottom: 1px solid #0066CC;
+}

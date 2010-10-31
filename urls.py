@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from views import homepage
 
 from django.contrib import admin
 admin.autodiscover()
@@ -6,10 +7,14 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Example:
     # (r'^mediabase/', include('mediabase.foo.urls')),
+    
+    # Organization directory and singular organiation URLs
+    (r'^organizations/', include('organizations.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
+    # Homepage
+    url(r'^$', homepage, name='homepage' ),
+
+    # Admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 )
