@@ -6,7 +6,7 @@
 {% if recently_updated_orgs %}
 <ul>
 	{% for recently_updated_org in recently_updated_orgs %}
-	<li>{{ recently_updated_org.name }}</li>
+	<li><a href="{{ recently_updated_org.get_absolute_url }}">{{ recently_updated_org.name }}</a></li>
 	{% endfor %}
 </ul>
 {% else %}
