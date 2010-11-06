@@ -96,14 +96,15 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'django_extensions',
+    'south',
 
     'apps.dbpedia',
     'apps.organizations',
 	'apps.products',
-	
+
 	'apps.twitter',
 	'apps.facebook',
-	
+
     'apps.activities',
 )
 
