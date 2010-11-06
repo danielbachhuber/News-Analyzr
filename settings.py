@@ -101,6 +101,7 @@ INSTALLED_APPS = (
     'apps.organizations',
 	'apps.products',
 	
+	'apps.feeds',	
 	'apps.twitter',
 	'apps.facebook',
 	
