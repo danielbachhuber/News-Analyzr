@@ -1,7 +1,10 @@
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
 
-from dbpedia.models import NewsOrg
-from organizations.models import *
+from apps.dbpedia.models import NewsOrg
+from apps.organizations.models import *
+from apps.products.models import *
+from apps.activities.models import *
 
 from rdflib import Graph
 from rdflib.term import URIRef
@@ -18,7 +21,15 @@ class Command(BaseCommand):
         count = 0
 
         news_org_type, created = OrganizationType.objects.get_or_create(name='News')
+        company_org_type, created = OrganizationType.objects.get_or_create(name='Company')
         web_product_type, created = ProductType.objects.get_or_create(name='Website')
+
+        try:
+            bot_user = User.objects.get(username='importbot')
+        except User.DoesNotExist:
+            bot_user = User.objects.create_user('importbot', 'importbot@newsanalyzr.com', 'importbot')
+            bot_user.active = False
+            bot_user.save()
 
         for trip in g.triples((None, None, URIRef('http://dbpedia.org/ontology/Newspaper'))):
             url = str(trip[0])
@@ -32,13 +43,21 @@ class Command(BaseCommand):
                 new_org.dbpedia = org
                 new_org.save()
 
+                Activity(user=bot_user, content_object=new_org).save()
+
+                if org.owner:
+                    owner, created = Organization.objects.get_or_create(name=unicode(org.owner), homepage=org.owner.homepage, organization_type=company_org_type)
+                    if created:
+                        Activity(user=bot_user, content_object=owner).save()
+                    new_org.parents.add(owner)
+
                 prod = Product()
                 prod.organization = new_org
                 prod.name = org.label
                 prod.homepage = org.homepage
                 prod.product_type = web_product_type
                 prod.save()
-
+                Activity(user=bot_user, content_object=prod).save()
 
             count += 1
             if count % 10 == 0:
