@@ -33,6 +33,13 @@ class DbpediaBase(models.Model):
         values = {}
         for trip in g.triples((None, None, None)):
             key = str(trip[1])
+
+            if key == 'http://dbpedia.org/property/redirect':
+                redirect_to = unicode(trip[2])
+                if redirect_to != dbpedia:
+                    obj.delete()
+                    return cls.from_dbpedia(redirect_to)
+
             field = cls.dbpedia_fields.get(key, None)
             if field:
                 if field['type'] == 'value' or field['type'] == 'related':
