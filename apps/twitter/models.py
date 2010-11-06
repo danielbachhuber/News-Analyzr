@@ -1,7 +1,8 @@
 from django.db import models
 
 class TwitterAccount(models.Model):
-    username = model.CharField(max_length=20)
+    username = models.CharField(max_length=20)
+    twitter_id = models.PostiveIntegerField(blank=True, null=True)
     
     # Required for all models
     uuid = UUIDField(version=4, primary_key=True)
