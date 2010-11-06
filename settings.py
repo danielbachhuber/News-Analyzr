@@ -100,6 +100,9 @@ INSTALLED_APPS = (
     'apps.dbpedia',
     'apps.organizations',
 	'apps.products',
+	
+	'apps.twitter',
+	
     'apps.activities',
 )
 
