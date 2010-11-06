@@ -1,4 +1,6 @@
 from django.db import models
+from apps.twitter.models import *
+from apps.facebook.models import *
 from django_extensions.db.fields import UUIDField, AutoSlugField
 
 class ProductType(models.Model):
@@ -20,6 +22,9 @@ class Product(models.Model):
     product_type = models.ForeignKey(ProductType)
 
     daylife_source = models.CharField(max_length=16, blank=True)
+    
+    twitter_accounts = models.ManyToManyField(TwitterAccount, related_name='products', blank=True)
+    facebook_pages = models.ManyToManyField(FacebookPage, related_name='products', blank=True)
 
     def __unicode__(self):
         return self.name
