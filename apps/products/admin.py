@@ -6,9 +6,10 @@ class ProductTypeAdmin(admin.ModelAdmin):
     pass
 
 class ProductAdmin(admin.ModelAdmin):
+    raw_id_fields = ['organization']
     list_display = ['name', 'homepage', 'organization', 'product_type']
     search_fields = ['name', 'product_type']
-    pass   
+    pass
     
 admin.site.register(ProductType, ProductTypeAdmin)    
 admin.site.register(Product, ProductAdmin)
