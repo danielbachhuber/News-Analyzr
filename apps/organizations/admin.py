@@ -1,5 +1,5 @@
 from django.contrib         import admin
-from organizations.models   import *
+from apps.organizations.models   import *
 
 class OrganizationTypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
@@ -7,6 +7,7 @@ class OrganizationTypeAdmin(admin.ModelAdmin):
 
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ['name', 'homepage', 'organization_type', 'modified']
+    # list_filter = ['parents']
     search_fields = ['name']
     pass
     

@@ -97,9 +97,9 @@ INSTALLED_APPS = (
 
     'django_extensions',
 
-    'dbpedia',
-    'organizations',
-    'activities',
+    'apps.dbpedia',
+    'apps.organizations',
+    'apps.activities',
 )
 
 try:

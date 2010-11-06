@@ -1,5 +1,5 @@
 from django.db import models
-from dbpedia import models as dbpedia_models
+from apps.dbpedia import models as dbpedia_models
 from django_extensions.db.fields import UUIDField, AutoSlugField
 
 class OrganizationType(models.Model):
