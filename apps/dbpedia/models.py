@@ -182,7 +182,7 @@ class Owner(DbpediaBase):
     homepage = models.URLField(blank=True)
 
     def __unicode__(self):
-        return self.name
+        return self.name or self.label or self.dbpedia[self.dbpedia.rfind('/')+1:].replace('_', ' ')
 
     dbpedia_fields = {
         'http://xmlns.com/foaf/0.1/name': {
