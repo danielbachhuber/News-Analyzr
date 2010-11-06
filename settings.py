@@ -102,6 +102,7 @@ INSTALLED_APPS = (
 	'apps.products',
 	
 	'apps.twitter',
+	'apps.facebook',
 	
     'apps.activities',
 )
