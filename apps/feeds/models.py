@@ -15,7 +15,7 @@ class Feed(models.Model):
         ('NITF', 'NITF'),
     )
     
-    format = models.CharField(max_length=2, choices=FORMAT_CHOICES)
+    format = models.CharField(max_length=4, choices=FORMAT_CHOICES)
     
     # Required for all models
     uuid = UUIDField(version=4, primary_key=True)
