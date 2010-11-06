@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     # (r'^mediabase/', include('mediabase.foo.urls')),
     
     # Organization directory and singular organiation URLs
-    (r'^organizations/', include('organizations.urls')),
+    (r'^organizations/', include('apps.organizations.urls')),
 
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT}),

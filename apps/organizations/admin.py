@@ -1,5 +1,5 @@
 from django.contrib         import admin
-from organizations.models   import *
+from apps.organizations.models   import *
 
 class OrganizationTypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
