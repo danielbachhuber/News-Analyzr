@@ -21,9 +21,9 @@ class DbpediaBase(models.Model):
         abstract = True
 
     @classmethod
-    def from_dbpedia(cls, dbpedia):
+    def from_dbpedia(cls, dbpedia, force=False):
         obj, created = cls.objects.get_or_create(dbpedia=dbpedia)
-        if not created:
+        if not created and not force:
             return obj
 
         g = Graph()
