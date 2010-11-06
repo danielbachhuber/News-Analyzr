@@ -3,6 +3,10 @@ from django.db import models
 from rdflib import Graph
 from rdflib.term import URIRef
 
+import json
+import urllib
+import unicodedata
+
 class Literal(models.Model):
     lang = models.CharField(max_length=5)
     text = models.TextField()
@@ -63,6 +67,10 @@ class DbpediaBase(models.Model):
                     getattr(obj, field['field']).add(m2m)
                 getattr(obj, field['field']).exclude(id__in=ids).delete()
 
+
+        if hasattr(obj, 'postProcess'):
+            obj.postProcess()
+
         return obj
 
 class NewsOrg(DbpediaBase):
@@ -78,7 +86,7 @@ class NewsOrg(DbpediaBase):
     circulation = models.PositiveIntegerField(null=True)
 
     owner = models.ForeignKey('Owner', null=True, blank=True)
-    headquarters = models.URLField(blank=True)
+    headquarters = models.ForeignKey('Headquarters', null=True, blank=True)
 
     links = models.ManyToManyField(Value, related_name='newsorg_links')
 
@@ -103,7 +111,7 @@ class NewsOrg(DbpediaBase):
         },
         'http://dbpedia.org/ontology/headquarters': {
             'field': 'headquarters',
-            'type': 'value'
+            'type': 'related'
         },
         'http://dbpedia.org/ontology/language': {
             'field': 'language',
@@ -183,3 +191,43 @@ class Owner(DbpediaBase):
             'type': 'value'
         },
     }
+
+class Headquarters(DbpediaBase):
+    label = models.CharField(max_length=500, blank=True)
+    loc_lat = models.FloatField(null=True, blank=True)
+    loc_long = models.FloatField(null=True, blank=True)
+
+    country = models.CharField(max_length=100, blank=True)
+    region = models.CharField(max_length=100, blank=True)
+
+    dbpedia_fields = {
+        'http://www.w3.org/2000/01/rdf-schema#label': {
+            'field': 'label',
+            'type': 'lang'
+        },
+        'http://www.w3.org/2003/01/geo/wgs84_pos#long': {
+            'field': 'loc_long',
+            'type': 'value'
+        },
+        'http://www.w3.org/2003/01/geo/wgs84_pos#lat': {
+            'field': 'loc_lat',
+            'type': 'value'
+        }
+    }
+
+    def postProcess(self):
+        if self.label and not self.loc_lat:
+            url = 'http://where.yahooapis.com/geocode?q=%s&appid=NfeBrn6m&flags=JC' % urllib.quote_plus(unicodedata.normalize('NFKD', self.label).encode('ascii','ignore'))
+            print url
+            geocode = json.load(urllib.urlopen(url))
+            if geocode['ResultSet']['Found'] > 0:
+                self.loc_lat = geocode['ResultSet']['Results'][0]['latitude']
+                self.loc_long = geocode['ResultSet']['Results'][0]['longitude']
+                self.save()
+
+        if self.loc_lat and self.loc_long:
+            url = 'http://ws.geonames.org/countrySubdivisionJSON?lat=%s&lng=%s' % (self.loc_lat, self.loc_long)
+            codes = json.load(urllib.urlopen(url))
+            self.country = codes.get('countryName', '')
+            self.region = codes.get('adminName1', '')
+            self.save()
