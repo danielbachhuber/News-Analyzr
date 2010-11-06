@@ -77,7 +77,7 @@ class NewsOrg(DbpediaBase):
     language = models.ForeignKey('Language', null=True)
     circulation = models.PositiveIntegerField(null=True)
 
-    owner = models.URLField(blank=True)
+    owner = models.ForeignKey('Owner', null=True, blank=True)
     headquarters = models.URLField(blank=True)
 
     links = models.ManyToManyField(Value, related_name='newsorg_links')
@@ -99,7 +99,7 @@ class NewsOrg(DbpediaBase):
         },
         'http://dbpedia.org/ontology/owner': {
             'field': 'owner',
-            'type': 'value'
+            'type': 'related'
         },
         'http://dbpedia.org/ontology/headquarters': {
             'field': 'headquarters',
@@ -165,6 +165,9 @@ class Owner(DbpediaBase):
     name = models.CharField(max_length=500, blank=True)
     label = models.CharField(max_length=500, blank=True)
     homepage = models.URLField(blank=True)
+
+    def __unicode__(self):
+        return self.name
 
     dbpedia_fields = {
         'http://xmlns.com/foaf/0.1/name': {

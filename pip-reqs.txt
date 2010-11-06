@@ -3,3 +3,4 @@ Werkzeug
 django-extensions
 rdflib
 xlrd
+south
