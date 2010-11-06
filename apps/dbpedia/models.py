@@ -225,7 +225,6 @@ class Headquarters(DbpediaBase):
     def postProcess(self):
         if self.label and not self.loc_lat:
             url = 'http://where.yahooapis.com/geocode?q=%s&appid=NfeBrn6m&flags=JC' % urllib.quote_plus(unicodedata.normalize('NFKD', self.label).encode('ascii','ignore'))
-            print url
             geocode = json.load(urllib.urlopen(url))
             if geocode['ResultSet']['Found'] > 0:
                 self.loc_lat = geocode['ResultSet']['Results'][0]['latitude']
