@@ -7,8 +7,14 @@
 {% if organization %}
 <div class="entry">
 
-	<h2><a class="edit" href="{{ organization.get_edit_url }}">Edit</a>{{ organization.name }}</h2>
-
+	<h2>{{ organization.name }}</h2>
+	
+	{% if organization.description %}
+	<p class="description">{{ organization.description }}</p>
+	{% else %}
+	<div class="message edit">{{ organization.name }} doesn't have a description yet. Fill out fields and we'll automagically put one together</div>
+	{% endif %}
+	
 	<div class="meta">
 		<p class="homepage"><label>Homepage:</label> {% if organization.homepage %}<a href="{{ organization.homepage }}">{{ organization.homepage }}</a>{% else %}(None listed){% endif %}</p>
 
