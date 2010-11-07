@@ -4,4 +4,3 @@ django-extensions
 rdflib
 xlrd
 south
-django-pagination
