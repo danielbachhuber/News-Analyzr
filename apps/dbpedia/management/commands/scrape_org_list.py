@@ -41,13 +41,19 @@ class Command(BaseCommand):
                 new_org.homepage = org.homepage
                 new_org.organization_type = news_org_type
                 new_org.dbpedia = org
+                new_org.modified_by = bot_user
                 new_org.save()
 
                 Activity(user=bot_user, content_object=new_org).save()
 
                 if org.owner:
-                    owner, created = Organization.objects.get_or_create(name=unicode(org.owner), homepage=org.owner.homepage, organization_type=company_org_type)
-                    if created:
+                    data = {'name': unicode(org.owner), 'homepage': org.owner.homepage, 'organization_type': company_org_type}
+                    try:
+                        owner = Organization.objects.get(**data)
+                    except Organization.DoesNotExist:
+                        owner = Organization(**data)
+                        owner.modified_by = bot_user
+                        owner.save(0)
                         Activity(user=bot_user, content_object=owner).save()
                     new_org.parents.add(owner)
 
@@ -56,6 +62,7 @@ class Command(BaseCommand):
                 prod.name = org.label
                 prod.homepage = org.homepage
                 prod.product_type = web_product_type
+                prod.modified_by = bot_user
                 prod.save()
                 Activity(user=bot_user, content_object=prod).save()
 

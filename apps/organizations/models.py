@@ -1,21 +1,15 @@
 from django.db import models
+
+from apps.base.models import *
 from apps.dbpedia import models as dbpedia_models
 from apps.organizations.utils import *
-from django_extensions.db.fields import UUIDField, AutoSlugField
 
-class OrganizationType(models.Model):
-    uuid = UUIDField(version=4, primary_key=True)
-    name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name')
+class OrganizationType(NamedContentBase, ContentBase):
+    # uuid, name, slug, created, modified
     description = models.TextField()
 
-    def __unicode__(self):
-        return self.name
-
-class Organization(models.Model):
-    uuid = UUIDField(version=4, primary_key=True)
-    name = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='name')
+class Organization(VersionedContentBase, NamedContentBase):
+    # id, vid, name, slug, modified, modified_by
     homepage = models.URLField(blank=True)
     address = models.TextField(blank=True)
 
@@ -24,12 +18,6 @@ class Organization(models.Model):
     parents = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='children')
 
     dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True, blank=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.name
 
     @property
     def description(self):

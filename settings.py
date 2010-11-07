@@ -103,7 +103,9 @@ INSTALLED_APPS = (
 
     'django_extensions',
     'south',
+    'revisions',
 
+    'apps.base',
     'apps.dbpedia',
     'apps.organizations',
 	'apps.products',

@@ -6,10 +6,12 @@ from urllib2 import urlopen
 from xlrd import open_workbook
 from django.core.management.base import BaseCommand
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 # app
 from apps.organizations.models import Organization, OrganizationType
 from apps.products.models import Product, ProductType
+from apps.activities.models import Activity
 
 def normalize_org_name(name):
     name = name.lower()
@@ -125,8 +127,10 @@ class DaylifeSourceImporter(object):
                 homepage=row.get('Home Page URL'),
                 # XXX: ew
                 organization_type=OrganizationType.objects.get(name='News'),
+                modified_by=User.objects.get(username='importbot'),
         )
         org.save()
+        Activity(user=org.modified_by, content_object=org).save()
         return org
 
 
@@ -142,14 +146,18 @@ class DaylifeSourceImporter(object):
                 # XXX: ew
                 product_type=ptype,
                 organization=org,
+                modified_by=User.objects.get(username='importbot'),
         )
         p.save()
+        Activity(user=p.modified_by, content_object=p).save()
         return p
 
 
     def add_daylife_data(self, row, product):
         product.daylife_source = row.get('Source ID')
+        product.modified_by = User.objects.get(username='importbot')
         product.save()
+        Activity(user=product.modified_by, content_object=product).save()
 
 
 class Command(BaseCommand):
