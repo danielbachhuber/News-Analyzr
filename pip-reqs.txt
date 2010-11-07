@@ -5,4 +5,6 @@ rdflib
 xlrd
 south
 django-debug-toolbar
+django-countries
+django-postal
 -e git+https://github.com/stdbrouw/django-revisions.git#egg=django_revisions
