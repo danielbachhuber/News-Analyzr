@@ -7,6 +7,7 @@ from apps.organizations.models import *
 def organization_list(request):
     
     organization_list = Organization.objects.order_by('name')
+    organization_types = OrganizationType.objects.all()
     
     paginator = Paginator(organization_list, 25) # Show 25 organizations per page
 
@@ -24,6 +25,7 @@ def organization_list(request):
     
     return render_to_response('organizations/organization_list.html', {
         'organizations': organizations,
+        'organization_types': organization_types,
     }, context_instance=RequestContext(request))
     
 def organization_detailed(request, slug):

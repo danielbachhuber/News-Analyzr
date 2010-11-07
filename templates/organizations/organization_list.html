@@ -4,11 +4,43 @@
 <div class="main" id="organization_list">
 
 <div class="page">
-	<ul>
-{% for organization in organizations.object_list %}
-	<li><a href="{{ organization.get_absolute_url }}">{{ organization.name }}</a></li>
-{% endfor %}
-	</ul>
+	
+	<form method="GET" action="/organizations/">	
+	<table>
+		<thead>
+			<tr>
+				<th>
+					<label for="organization_name">Name:</label>
+					<input type="text" id="organization_name" name="organization_name" />
+				</th>
+				<th>
+					<label for="organization_type">Type:</label>
+					<select id="organization_type" name="organization_type">
+						{% for organization_type in organization_types %}
+							<option value="{{ organization_type.slug }}">{{ organization_type.name }}</option>
+						{% endfor %}
+					</select>
+				</th>
+				<th>
+					<label for="organization_location">Location:</label>
+					<input type="text" id="organization_location" name="organization_location" />
+				</th>
+				<th>
+					<input type="submit" value="filter" />
+				</th>
+			<tr>
+		</thead>
+		<tbody>
+		{% for organization in organizations.object_list %}
+			<tr>
+				<td><a href="{{ organization.get_absolute_url }}">{{ organization.name }}</a></td>
+				<td>{{ organization.organization_type }}</td>
+				<td>{{ organization.address }}</td>				
+			</tr>
+		{% endfor %}	
+		</tbody>
+	</table>
+	</form>
 	
 	<div class="pagination">
 	    <span class="step-links">
