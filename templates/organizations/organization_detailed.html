@@ -20,6 +20,11 @@
         {% endfor %}
 	</div>
 
+    {% if organization.children.count > 0 %}
+    <img src="http://maps.google.com/maps/api/staticmap?size=600x500&maptype=roadmap\
+&markers=size:mid|color:red|{% for child in organization.children.all %}{% if child.dbpedia and child.dbpedia.headquarters and child.dbpedia.headquarters.loc_lat %}{{ child.dbpedia.headquarters.loc_lat }},{{ child.dbpedia.headquarters.loc_long }}{% if not forloop.last %}|{% endif %}{% endif %}{% endfor %}&sensor=false">
+    {% endif %}
+
 </div>
 {% else %}
 <div class="message error">There's no organization at this address</div>
