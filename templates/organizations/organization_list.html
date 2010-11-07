@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main" id="organization_list">
+
+<div class="page">
+	<ul>
+{% for organization in organizations.object_list %}
+	<li><a href="{{ organization.get_absolute_url }}">{{ organization.name }}</a></li>
+{% endfor %}
+	</ul>
+	
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if organizations.has_previous %}
+	            <a href="?page={{ organizations.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ organizations.number }} of {{ organizations.paginator.num_pages }}.
+	        </span>
+
+	        {% if organizations.has_next %}
+	            <a href="?page={{ organizations.next_page_number }}">next</a>
+	        {% endif %}
+	    </span>
+	</div>
+	
+</div>
+
+</div>
+{% endblock %}
