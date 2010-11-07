@@ -7,7 +7,8 @@ from django.core.management.base import BaseCommand
 from django.db.models import Q
 
 # app
-from organizations.models import Organization, Product, OrganizationType, ProductType
+from apps.organizations.models import Organization, OrganizationType
+from apps.products.models import Product, ProductType
 
 def normalize_org_name(name):
     name = name.lower()
@@ -27,7 +28,7 @@ class DaylifeSourceImporter(object):
                 line[header[colnum].value] = row[colnum].value.strip()
             lines.append(line)
         return lines
-            
+
     def import_row(self, row):
         """
         {u'URL': u'http://pandorican.wordpress.com/', u'Source ID': u'07yV7Jn6bsa6P', u'Source Rank': 1.0, u'Source Type': u'blog', u'Source Name': u'Pandemonium'}
@@ -98,9 +99,9 @@ class DaylifeSourceImporter(object):
 
     def create_product(self, row, org):
         if 'blog' in row.get('Source Type'):
-            ptype = ProductType.objects.get(name='Blog')
+            ptype = ProductType.objects.get_or_create(name='Blog')[0]
         else:
-            ptype = ProductType.objects.get(name='Website')
+            ptype = ProductType.objects.get_or_create(name='Website')[0]
 
         p = Product(
                 name=row.get('Source Name'),
