@@ -22,6 +22,10 @@ class Organization(VersionedContentBase, NamedContentBase):
     @property
     def long_description(self):
         return generate_long_description(self)
+    
+    @property
+    def short_description(self):
+        return generate_short_description(self)
 
     @models.permalink
     def get_absolute_url(self):

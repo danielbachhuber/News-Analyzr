@@ -1,4 +1,5 @@
 
+# Long descriptions are used generally once per template
 def generate_long_description(organization):
     
     org_desc = []
@@ -10,10 +11,16 @@ def generate_long_description(organization):
     if organization.parents.count():
         org_desc.append('It is owned by ')
         for parent in organization.parents.all():
-            org_desc.append(parent.name)
+            org_desc.append('<a href="' + parent.get_absolute_url() + '">' + parent.name + '</a>, ')
         org_desc.append('. ')
     if organization.children.count():
         org_desc.append('It owns ' + str(organization.children.count()) + ' organizations, including ')
         for child in organization.children.all()[:3]:
             org_desc.append('<a href="' + child.get_absolute_url() + '">' + child.name + '</a>, ')
     return ''.join(org_desc)
+
+# Short descriptions are used in series of organizations    
+def generate_short_description(organization):
+
+    return 'Short description'
+
