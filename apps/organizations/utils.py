@@ -1,5 +1,5 @@
 
-def generate_organization_description(organization):
+def generate_long_description(organization):
     
     org_desc = []
     org_desc.append(organization.name)

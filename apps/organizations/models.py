@@ -20,8 +20,8 @@ class Organization(VersionedContentBase, NamedContentBase):
     dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True, blank=True)
 
     @property
-    def description(self):
-        return generate_organization_description(self)
+    def long_description(self):
+        return generate_long_description(self)
 
     @models.permalink
     def get_absolute_url(self):
