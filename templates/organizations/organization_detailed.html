@@ -10,7 +10,7 @@
 	<h2>{{ organization.name }}</h2>
 	
 	{% if organization.description %}
-	<p class="description">{{ organization.description }}</p>
+	<p class="description">{{ organization.description|safe }}</p>
 	{% else %}
 	<div class="message edit">{{ organization.name }} doesn't have a description yet. Fill out fields and we'll automagically put one together</div>
 	{% endif %}

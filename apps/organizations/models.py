@@ -1,5 +1,6 @@
 from django.db import models
 from apps.dbpedia import models as dbpedia_models
+from apps.organizations.utils import *
 from django_extensions.db.fields import UUIDField, AutoSlugField
 
 class OrganizationType(models.Model):
@@ -29,6 +30,10 @@ class Organization(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    @property
+    def description(self):
+        return generate_organization_description(self)
 
     @models.permalink
     def get_absolute_url(self):
