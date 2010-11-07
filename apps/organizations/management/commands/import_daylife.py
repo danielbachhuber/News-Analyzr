@@ -155,6 +155,7 @@ class DaylifeSourceImporter(object):
 
     def add_daylife_data(self, row, product):
         product.daylife_source = row.get('Source ID')
+        product.daylife_rank = row.get('Rank')
         product.modified_by = User.objects.get(username='importbot')
         product.save()
         Activity(user=product.modified_by, content_object=product).save()

@@ -20,6 +20,7 @@ class Product(VersionedContentBase, NamedContentBase):
     product_type = models.ForeignKey(ProductType)
 
     daylife_source = models.CharField(max_length=16, blank=True)
+    daylife_rank = models.PositiveSmallIntegerField(null=True, blank=True)
 
     feeds = models.ManyToManyField(Feed, related_name='products', blank=True)
     twitter_accounts = models.ManyToManyField(TwitterAccount, related_name='products', blank=True)
