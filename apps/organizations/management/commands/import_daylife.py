@@ -1,5 +1,6 @@
 # stdlib
 from urlparse import urlsplit
+from urllib2 import urlopen
 
 # 3rd party
 from xlrd import open_workbook
@@ -14,6 +15,38 @@ def normalize_org_name(name):
     name = name.lower()
     # TODO: strip stop words: The, etc.
     return name
+
+tlds = None
+def get_domain(url):
+    """
+    Based on http://stackoverflow.com/questions/1066933/python-extract-domain-name-from-url/1069780#1069780
+    """
+    global tlds
+    if not tlds:
+        mozilla_master_list = urlopen("http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1").read()
+        tlds = set([line.strip() for line in mozilla_master_list.split('\n') if line and line[0] not in "/\n"])
+
+    urlElements = urlsplit(url).netloc.split('.')
+    for i in range(-len(urlElements),0):
+        lastIElements = urlElements[i:]
+        #    i=-3: ["abcde","co","uk"]
+        #    i=-2: ["co","uk"]
+        #    i=-1: ["uk"] etc
+
+        candidate = ".".join(lastIElements) # abcde.co.uk, co.uk, uk
+        wildcardCandidate = ".".join(["*"]+lastIElements[1:]) # *.co.uk, *.uk, *
+        exceptionCandidate = "!"+candidate
+
+        # match tlds:
+        if (exceptionCandidate in tlds):
+            return ".".join(urlElements[i:])
+        if (candidate in tlds or wildcardCandidate in tlds):
+            return ".".join(urlElements[i-1:])
+            # returns "abcde.co.uk"
+
+    # Domain not in global list of TLDs"
+    return '.'.join(urlElements)
+
 
 class DaylifeSourceImporter(object):
     def parse(self, filename):
@@ -74,7 +107,7 @@ class DaylifeSourceImporter(object):
             #import pdb;pdb.set_trace()
             if urlparts:
                 netloc = urlparts.netloc
-                top_domain = '.'.join(netloc.split('.')[-2:])
+                top_domain = get_domain(row.get('Home Page URL', ''))
             else:
                 return
 
