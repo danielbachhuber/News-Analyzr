@@ -42,8 +42,31 @@ a {
 }
 
 .message {
-    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border: 2px solid #666666;
+}
+
+.message.alert {
+    background-color: #F6F9E0;
+    border-color: #DBE0B9;
+}
+
+.message.info {
+    background-color:#E4EAFF;
+    border-color:#0066CC;
+}
+
+.message.success {
+    background-color:#E1F8E7;
+    border-color:#ADEBBD;
+}
+
+.message.top-location {
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 /**

@@ -8,6 +8,8 @@
 	
 	<link type="text/css" href="/media/css/style.css" id="primary-css" rel="stylesheet" />
 	
+	<meta name="robots" content="noindex, nofollow" />
+	
 </head>
 <body>
 
@@ -20,6 +22,16 @@
 		</div>
 		
 	</div>
+	
+	{% if not user.is_authenticated %}
+	<div class="wrap">
+		<div class="message alert top-location" id="request_account">NewsAnalyzr is in alpha. Help us grow the largest structured database of news organizations in the world. <a href="mail:hello@newsanalyzr.com">Email us for an account</a>.</div>
+	</div>
+	{% else %}
+	<div class="wrap">
+		<div class="message alert top-location" id="tester_thankyou">Thank you for playing with NewsAnalyzr. <a href="mail:hello@newsanalyzr.com">Please email us with ideas, feedback, or bugs</a>.</div>
+	</div>
+	{% endif %}
 	
 	<div class="wrap">
 		{% block content %}{% endblock %}
