@@ -11,13 +11,23 @@
 
 	<div class="meta">
 		<p class="homepage"><label>Homepage:</label> {% if organization.homepage %}<a href="{{ organization.homepage }}">{{ organization.homepage }}</a>{% else %}(None listed){% endif %}</p>
+
 		{% for parent in organization.parents.all %}
-		{% if forloop.first %}<p class="parents"><label>Parents:</label> {% endif %}<a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
+		{% if forloop.first %}<p class="parents"><label>Parent{{ organization.parents.count|pluralize }}:</label> {% endif %}<a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
 		{% endfor %}
 
         {% for child in organization.children.all %}
         {% if forloop.first %}<p class="parents"><label>Children ({{ organization.children.count }}):</label> {% endif %}<a href="{{ child.get_absolute_url }}">{{ child.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
         {% endfor %}
+
+        {% if organization.product_set.count > 0 %}
+            <h3>Products</h3>
+            <ul>
+            {% for product in organization.product_set.all %}
+                <li>{{ product.name }} - {{ product.product_type }} - <a href="{{ product.homepage }}">{{ product.homepage }}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
 	</div>
 
     {% if organization.children.count > 0 %}
