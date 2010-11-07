@@ -5,6 +5,12 @@ here = lambda x: os.path.join(os.path.abspath(os.path.dirname(__file__)), x)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+try:
+    from debug_toolbar import VERSION
+    DDT_ENABLED = DEBUG
+except ImportError:
+    DDT_ENABLED = False
+
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -101,13 +107,25 @@ INSTALLED_APPS = (
     'apps.dbpedia',
     'apps.organizations',
 	'apps.products',
-	
+
 	'apps.feeds',
 	'apps.twitter',
 	'apps.facebook',
 
     'apps.activities',
 )
+
+if DDT_ENABLED:
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS += ('debug_toolbar',)
+
+    def custom_show_toolbar(request):
+        return request.user.is_staff
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': True,
+        'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+    }
 
 try:
     from local_settings import *

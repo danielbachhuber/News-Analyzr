@@ -4,3 +4,4 @@ django-extensions
 rdflib
 xlrd
 south
+django-debug-toolbar
