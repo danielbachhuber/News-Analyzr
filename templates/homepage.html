@@ -14,5 +14,12 @@
 <div class="message alert">No organizations have updated recently</div>
 {% endif %}
 
+<h3>Largest Parent Companies</h3>
+<ul>
+    {% for parent in largest_parents %}
+    <li><a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a> ({{ parent.child_count }})</li>
+    {% endfor %}
+</ul>
+
 </div>
 {% endblock %}
