@@ -20,7 +20,7 @@ class Organization(models.Model):
 
     organization_type = models.ForeignKey(OrganizationType)
 
-    parents = models.ManyToManyField('self', blank=True)
+    parents = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='children')
 
     dbpedia = models.ForeignKey(dbpedia_models.NewsOrg, null=True, blank=True)
 
@@ -29,13 +29,13 @@ class Organization(models.Model):
 
     def __unicode__(self):
         return self.name
-        
+
     @models.permalink
     def get_absolute_url(self):
         return ('organization_detailed', (), {
             'slug': self.slug,
         })
-        
+
     @models.permalink
     def get_edit_url(self):
         return ('organization_edit', (), {
