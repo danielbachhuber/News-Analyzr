@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from apps.organizations.models import *
+from apps.organizations.forms import *
 
 def organization_list(request):
     
@@ -27,14 +28,24 @@ def organization_list(request):
         'organizations': organizations,
         'organization_types': organization_types,
     }, context_instance=RequestContext(request))
-    
+ 
 def organization_detailed(request, slug):
     
-    organization = get_object_or_404(Organization, slug=slug)
+    organization = get_object_or_404(Organization, slug=slug)    
+    
+    if request.user.is_authenticated():
+        basic_info_form = OrganizationBasicInfoForm(instance=organization)
+    else:
+        basic_info_form = False
     
     return render_to_response('organizations/organization_detailed.html', {
         'organization': organization,
+        'basic_info_form': basic_info_form,
     }, context_instance=RequestContext(request))
     
-def organization_edit(request):
+def organization_edit_basic_info(request):
+    
+    if request.method == 'POST' and request.user.is_authenticated():
+        pass
+        
     pass

@@ -56,6 +56,14 @@
 			{% if forloop.first %}<li class="parents"><label class="left">Parent{{ organization.parents.count|pluralize }}:</label>{% endif %}<span><a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</span></li>{% endif %}
 			{% endfor %}
 		</ul>
+		{% if basic_info_form %}
+		<form class="edit" action="" method="POST">
+			<ul>
+			{{ basic_info_form.as_ul }}
+			<li><input type="submit" value="Save" /></li>
+			</ul>
+		</form>
+		{% endif %}
 	</div>
 	
 </div>
