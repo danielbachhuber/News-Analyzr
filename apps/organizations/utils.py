@@ -21,6 +21,9 @@ def generate_long_description(organization):
 
 # Short descriptions are used in series of organizations    
 def generate_short_description(organization):
-
-    return 'Short description'
+    org_desc = []
+    org_desc.append(organization.organization_type.name)
+    if organization.product_set.count() > 0:
+        org_desc.append(' with ' +  str(organization.product_set.count()) + ' product(s)' )
+    return ''.join(org_desc)
 
