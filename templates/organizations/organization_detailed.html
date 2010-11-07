@@ -16,7 +16,7 @@
 		{% endfor %}
 
         {% for child in organization.children.all %}
-        {% if forloop.first %}<p class="parents"><label>Children:</label> {% endif %}<a href="{{ child.get_absolute_url }}">{{ child.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
+        {% if forloop.first %}<p class="parents"><label>Children ({{ organization.children.count }}):</label> {% endif %}<a href="{{ child.get_absolute_url }}">{{ child.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
         {% endfor %}
 	</div>
 
