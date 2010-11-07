@@ -3,49 +3,62 @@
 {% block content %}
 <div class="main" id="organization_detailed">
 
-<div class="page">
-{% if organization %}
+<div class="page left">
+	
 <div class="entry">
 
 	<h2>{{ organization.name }}</h2>
 	
-	{% if organization.description %}
-	<p class="description">{{ organization.description|safe }}</p>
+	{% if organization.long_description %}
+	<p class="description">{{ organization.long_description|safe }}</p>
 	{% else %}
 	<div class="message edit">{{ organization.name }} doesn't have a description yet. Fill out fields and we'll automagically put one together</div>
 	{% endif %}
 	
-	<div class="meta">
-		<p class="homepage"><label>Homepage:</label> {% if organization.homepage %}<a href="{{ organization.homepage }}">{{ organization.homepage }}</a>{% else %}(None listed){% endif %}</p>
-
-		{% for parent in organization.parents.all %}
-		{% if forloop.first %}<p class="parents"><label>Parent{{ organization.parents.count|pluralize }}:</label> {% endif %}<a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
+	{% if organization.children.count > 0 %}
+	<!-- For organizations with children -->
+	<div class="objects" id="children_list">
+		<h3>Holdings</h3>
+		<ul>
+		{% for child in organization.children.all %}
+			<li class="child"><a href="{{ child.get_absolute_url }}">{{ child.name }}</a> - {{ child.short_description }}</li>
 		{% endfor %}
-
-        {% for child in organization.children.all %}
-        {% if forloop.first %}<p class="parents"><label>Children ({{ organization.children.count }}):</label> {% endif %}<a href="{{ child.get_absolute_url }}">{{ child.name }}</a>{% if not forloop.last %}, {% else %}</p>{% endif %}
-        {% endfor %}
-
-        {% if organization.product_set.count > 0 %}
-            <h3>Products</h3>
-            <ul>
-            {% for product in organization.product_set.all %}
-                <li>{{ product.name }} - {{ product.product_type }} - <a href="{{ product.homepage }}">{{ product.homepage }}</a></li>
-            {% endfor %}
-            </ul>
-        {% endif %}
+		</ul>
 	</div>
+	{% endif %}
+	
+	{% if organization.product_set.count > 0 %}
+	<div class="objects" id="children_list">	
+        <h3>Products</h3>
+        <ul>
+        {% for product in organization.product_set.all %}
+            <li class="product">{{ product.name }} - {{ product.product_type }} - <a href="{{ product.homepage }}">{{ product.homepage }}</a></li>
+        {% endfor %}
+        </ul>
+	</div>
+    {% endif %}
 
     {% if organization.children.count > 0 %}
     <img src="http://maps.google.com/maps/api/staticmap?size=600x500&maptype=roadmap\
 &markers=size:mid|color:red|{% for child in organization.children.all %}{% if child.dbpedia and child.dbpedia.headquarters and child.dbpedia.headquarters.loc_lat %}{{ child.dbpedia.headquarters.loc_lat }},{{ child.dbpedia.headquarters.loc_long }}{% if not forloop.last %}|{% endif %}{% endif %}{% endfor %}&sensor=false">
     {% endif %}
 
-</div>
-{% else %}
-<div class="message error">There's no organization at this address</div>
-{% endif %}
+</div><!-- END .entry -->
+
+</div><!-- END .page -->
+
+<div class="sidebar right">
+	
+	<div class="widget" id="info_box">
+		<ul>
+			<li class="homepage"><label class="left">Homepage</label>{% if organization.homepage %}<span><a href="{{ organization.homepage }}">{{ organization.homepage }}</a>{% else %}(None listed){% endif %}</span></li>
+			{% for parent in organization.parents.all %}
+			{% if forloop.first %}<li class="parents"><label class="left">Parent{{ organization.parents.count|pluralize }}:</label>{% endif %}<span><a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</span></li>{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+	
 </div>
 
-</div>
+</div><!-- END .main -->
 {% endblock %}
