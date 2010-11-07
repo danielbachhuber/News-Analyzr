@@ -14,7 +14,7 @@ class ProductType(NamedContentBase, ContentBase):
 
 class Product(VersionedContentBase, NamedContentBase):
     # id, vid, name, slug, modified, modified_by
-    organization = models.ForeignKey('organizations.Organization')
+    organization = models.ForeignKey('organizations.Organization', related_name='products')
     homepage = models.URLField(blank=True)
 
     product_type = models.ForeignKey(ProductType)

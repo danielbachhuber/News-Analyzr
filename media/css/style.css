@@ -29,6 +29,19 @@ a {
 	text-decoration: none;
 }
 
+span.edit, span.cancel {
+	color: #008FB8;
+	text-decoration: none;
+	border-bottom: 1px solid #008FB8;
+}
+
+span.edit:hover, span.cancel:hover {
+    background-color: #008FB8;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+	cursor: pointer;
+}
+
 .left {
     float: left;
 }
@@ -118,7 +131,8 @@ form.edit {
 
 .sidebar ul li {
     list-style-type: none;
-    margin-bottom: 10px;    
+    margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .sidebar .widget {
@@ -128,6 +142,13 @@ form.edit {
     padding-bottom: 10px;
 }
 
+.sidebar .widget span.edit {
+}
+
+.sidebar .widget form.edit {
+	display:none;
+}
+
 .sidebar .widget#info_box {
     border: 1px solid #EEEEEE;
     border-radius: 5px;
@@ -135,20 +156,29 @@ form.edit {
     -webkit-border-radius: 5px;
 }
 
-.sidebar .widget#info_box label {
+.sidebar .widget#info_box ul li label {
     color: #999999;
     width: 90px;
     display: inline-block;
 }
 
-.sidebar .widget#info_box span {
+.sidebar .widget#info_box ul li span {
     margin-left: 100px;
     display: block;
+}
+
+.sidebar .widget#info_box ul li span.cancel {
+	display: inline;
+	margin: 10px;
 }
 
 .sidebar form {
     margin: -5px;
     padding: 5px;
+}
+
+.sidebar form input.submit {
+	display: inline;
 }
 
 /**

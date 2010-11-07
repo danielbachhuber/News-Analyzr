@@ -20,28 +20,30 @@
 	<div class="objects" id="children_list">
 		<h3>Holdings</h3>
 		<ul>
-		{% for child in organization.children.all %}
+		{% for child in organization.children.all.select_related %}
 			<li class="child"><a href="{{ child.get_absolute_url }}">{{ child.name }}</a> - {{ child.short_description }}</li>
 		{% endfor %}
 		</ul>
 	</div>
 	{% endif %}
 	
-	{% if organization.product_set.count > 0 %}
+	{% if organization.products.count > 0 %}
 	<div class="objects" id="children_list">	
         <h3>Products</h3>
         <ul>
-        {% for product in organization.product_set.all %}
+        {% for product in organization.products.all %}
             <li class="product">{{ product.name }} - {{ product.product_type }} - <a href="{{ product.homepage }}">{{ product.homepage }}</a></li>
         {% endfor %}
         </ul>
 	</div>
     {% endif %}
 
+	{% comment %}
     {% if organization.children.count > 0 %}
     <img src="http://maps.google.com/maps/api/staticmap?size=600x500&maptype=roadmap\
-&markers=size:mid|color:red|{% for child in organization.children.all %}{% if child.dbpedia and child.dbpedia.headquarters and child.dbpedia.headquarters.loc_lat %}{{ child.dbpedia.headquarters.loc_lat }},{{ child.dbpedia.headquarters.loc_long }}{% if not forloop.last %}|{% endif %}{% endif %}{% endfor %}&sensor=false">
+&markers=size:mid|color:red|{% for child in organization.children.all.select_related %}{% if child.dbpedia and child.dbpedia.headquarters and child.dbpedia.headquarters.loc_lat %}{{ child.dbpedia.headquarters.loc_lat }},{{ child.dbpedia.headquarters.loc_long }}{% if not forloop.last %}|{% endif %}{% endif %}{% endfor %}&sensor=false">
     {% endif %}
+	{% endcomment %}
 
 </div><!-- END .entry -->
 
@@ -56,11 +58,12 @@
 			{% if forloop.first %}<li class="parents"><label class="left">Parent{{ organization.parents.count|pluralize }}:</label>{% endif %}<span><a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a>{% if not forloop.last %}, {% else %}</span></li>{% endif %}
 			{% endfor %}
 		</ul>
+		<span class="edit">Edit</span>		
 		{% if basic_info_form %}
 		<form class="edit" action="" method="POST">
 			<ul>
 			{{ basic_info_form.as_ul }}
-			<li><input type="submit" value="Save" /></li>
+			<li><input type="submit" class="submit" value="Save" /> <span class="cancel">Cancel</span></li>
 			</ul>
 		</form>
 		{% endif %}

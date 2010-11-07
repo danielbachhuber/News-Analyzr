@@ -10,12 +10,12 @@ def generate_long_description(organization):
     org_desc.append('. ')
     if organization.parents.count():
         org_desc.append('It is owned by ')
-        for parent in organization.parents.all():
+        for parent in organization.parents.all().select_related():
             org_desc.append('<a href="' + parent.get_absolute_url() + '">' + parent.name + '</a>, ')
         org_desc.append('. ')
     if organization.children.count():
         org_desc.append('It owns ' + str(organization.children.count()) + ' organizations, including ')
-        for child in organization.children.all()[:3]:
+        for child in organization.children.all().select_related()[:3]:
             org_desc.append('<a href="' + child.get_absolute_url() + '">' + child.name + '</a>, ')
     return ''.join(org_desc)
 
