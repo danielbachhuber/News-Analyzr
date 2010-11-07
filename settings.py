@@ -104,6 +104,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'south',
     'revisions',
+	'django_countries',
+	'postal',
 
     'apps.base',
     'apps.dbpedia',
