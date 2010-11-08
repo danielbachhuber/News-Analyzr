@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.http import HttpResponse, HttpResponseForbidden
+import json
 
 from apps.organizations.models import *
 from apps.organizations.forms import *
@@ -43,9 +45,18 @@ def organization_detailed(request, slug):
         'basic_info_form': basic_info_form,
     }, context_instance=RequestContext(request))
     
-def organization_edit_basic_info(request):
-    
+def organization_edit_basic_info(request, slug):
+
     if request.method == 'POST' and request.user.is_authenticated():
-        pass
-        
-    pass
+        organization = get_object_or_404(Organization, slug=slug)   
+        form = OrganizationBasicInfoForm(request.POST, instance=organization)
+        if form.is_valid():
+            updated_organization = form.save(commit=False)
+            updated_organization.modified_by = request.user
+            updated_organization.save()
+            return HttpResponse(json.dumps({
+                'status': 'ok',
+                'homepage': updated_organization.homepage,
+            }), mimetype="application/javascript")
+
+    return HttpResponseForbidden()

@@ -60,7 +60,8 @@
 		</ul>
 		<span class="edit">Edit</span>		
 		{% if basic_info_form %}
-		<form class="edit" action="" method="POST">
+		<form class="edit" action="{% url organization_edit_basic_info slug=organization.slug %}" method="POST">
+			{% csrf_token %}
 			<ul>
 			{{ basic_info_form.as_ul }}
 			<li><input type="submit" class="submit" value="Save" /> <span class="cancel">Cancel</span></li>
